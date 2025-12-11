@@ -6,14 +6,13 @@ function raf(time) {
 }
 requestAnimationFrame(raf);
 
-// --- 2. DOCK ANIMATION & ACTIVE STATE ---
+// --- 2. DOCK ANIMATION (Mimicking React Dock) ---
 const dock = document.getElementById('dock');
 const dockItems = document.querySelectorAll('.dock-item');
-const baseWidth = 55; // Updated base width to match CSS
+const baseWidth = 50;
 const root = document.documentElement;
 
 if (dock) {
-    // Magnification Effect
     dock.addEventListener('mousemove', (e) => {
         const mouseX = e.clientX;
         
@@ -24,12 +23,13 @@ if (dock) {
             
             let scale = 1;
             if (distance < 150) {
+                // Scale up to 1.6x when mouse is directly over
                 scale = 1 + (1.6 - 1) * (1 - distance / 150); 
             }
             
             item.style.width = `${baseWidth * scale}px`;
             item.style.height = `${baseWidth * scale}px`;
-            item.style.fontSize = `${1.3 * scale}rem`;
+            item.style.fontSize = `${1.2 * scale}rem`;
         });
     });
 
@@ -37,15 +37,13 @@ if (dock) {
         dockItems.forEach(item => {
             item.style.width = `${baseWidth}px`;
             item.style.height = `${baseWidth}px`;
-            item.style.fontSize = `1.3rem`;
+            item.style.fontSize = `1.2rem`;
         });
     });
 
-    // Active State Handler
-    function updateDockActiveState() {
-        // Offset scroll position slightly upwards for better section detection
-        const currentScrollY = window.scrollY + window.innerHeight * 0.4; 
-        
+    // Handle Dock Active State on Scroll/Click
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY + window.innerHeight / 2;
         document.querySelectorAll('section').forEach(section => {
             if (section.offsetTop <= currentScrollY && section.offsetTop + section.offsetHeight > currentScrollY) {
                 const sectionId = section.getAttribute('id');
@@ -57,12 +55,10 @@ if (dock) {
                 });
             }
         });
-    }
+    });
 
-    window.addEventListener('scroll', updateDockActiveState);
-    
-    // Initial check
-    updateDockActiveState(); 
+    // Initial check for active state
+    document.querySelector('.dock-item[href="#home"]').classList.add('active');
 }
 
 // --- 3. ANIME.JS STAGGER & SCROLL ANIMATIONS ---
@@ -90,7 +86,7 @@ function initAnime() {
             easing: "easeOutExpo",
             duration: 1200,
             delay: anime.stagger(30)
-        }, 0); 
+        }, 0); // Start title animation at the same time as subtitle for smooth feel
 
 
     // Scroll Trigger for Section headers
@@ -124,11 +120,11 @@ function type() {
         setTimeout(type, 50);
     }
 }
-setTimeout(type, 1500); 
+setTimeout(type, 1500); // Wait for hero animation to start
 
 // --- 5. CLICK SPARK ---
 document.addEventListener('click', (e) => {
-    const neonBlue = root.style.getPropertyValue('--neon-blue').trim() || '#7BBBFF';
+    const neonBlue = root.style.getPropertyValue('--neon-blue') || '#7BBBFF';
 
     for(let i=0; i<8; i++) {
         const spark = document.createElement('div');
@@ -156,14 +152,14 @@ const darkTheme = {
     '--bg-dark': '#06141B', '--bg-panel': '#11212D', '--card-bg': '#253745', 
     '--accent-muted': '#4A5C6A', '--text-gray': '#9BA8AB', '--text-white': '#CCD0CF', 
     '--neon-blue': '#7BBBFF', '--accent-purple': '#B8A9FF', '--glass': 'rgba(17, 33, 45, 0.7)', 
-    '--border': 'rgba(123, 187, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)', '--dock-bg': 'rgba(6, 20, 27, 0.6)'
+    '--border': 'rgba(123, 187, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
 };
 
 const lightTheme = {
     '--bg-dark': '#F2FDFF', '--bg-panel': '#e0e6e8', '--card-bg': '#ffffff', 
     '--accent-muted': '#CCD0CF', '--text-gray': '#4A5C6A', '--text-white': '#050F2A', 
     '--neon-blue': '#050F2A', '--accent-purple': '#7BBBFF', '--glass': 'rgba(255, 255, 255, 0.8)', 
-    '--border': 'rgba(5, 15, 42, 0.1)', '--shadow-color': 'rgba(0, 0, 0, 0.1)', '--dock-bg': 'rgba(255, 255, 255, 0.7)'
+    '--border': 'rgba(5, 15, 42, 0.1)', '--shadow-color': 'rgba(0, 0, 0, 0.1)'
 };
 
 function applyTheme(theme) {
@@ -175,7 +171,7 @@ function applyTheme(theme) {
     // Update canvas balls for new theme
     const isLight = theme === lightTheme;
     balls.forEach(b => {
-        const lightColors = ['#e0e6e8', '#CCD0CF', '#7BBBFF'];
+        const lightColors = ['#B8A9FF', '#7BBBFF', '#CCD0CF'];
         const darkColors = ['#253745', '#4A5C6A', '#11212D'];
         b.color = isLight ? lightColors[Math.floor(Math.random()*3)] : darkColors[Math.floor(Math.random()*3)];
     });
@@ -251,8 +247,7 @@ class Ball {
 
 function initBalls() {
     balls = [];
-    // Colors matching the dark theme default
-    const colors = ['#253745', '#4A5C6A', '#11212D']; 
+    const colors = ['#253745', '#4A5C6A', '#11212D'];
     for (let i = 0; i < 60; i++) {
         let r = Math.random() * 15 + 5;
         let x = Math.random() * canvas.width;
@@ -274,4 +269,3 @@ window.onload = () => {
     animateBalls();
     initAnime();
 };
-
