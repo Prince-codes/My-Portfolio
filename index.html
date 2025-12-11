@@ -1,1 +1,146 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prince Raj Singh | Cybersecurity Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+    <div id="canvas-wrapper">
+        <canvas id="ballpit"></canvas>
+    </div>
+
+    <div class="toggle-wrapper">
+        <label for="switch" class="switch">
+            <input id="switch" type="checkbox" />
+            <span class="slider"></span>
+            <span class="decoration"></span>
+        </label>
+    </div>
+
+    <main class="container">
+        
+        <section id="home" class="hero">
+            <span class="hero-subtitle code-font">&lt;Cybersecurity_Analyst /&gt;</span>
+            <h1 class="hero-title animate-title">
+                Prince Raj Singh
+            </h1>
+            <div class="tagline-wrapper">
+                <p class="typewriter code-font" id="typewriter-text"></p>
+            </div>
+            <a href="#projects" class="cta-button">View Projects <i class="fas fa-arrow-right"></i></a>
+        </section>
+
+        <section id="about">
+            <h2 class="section-header animate-header">About Me</h2>
+            <div class="grid-2">
+                <div class="about-text">
+                    <p>I'm an entry-level <strong>cybersecurity learner</strong> with foundational understanding of Linux systems and file structures. My passion lies in secure coding, error handling, and logical problem-solving.</p>
+                    <p>I enjoy exploring how systems work and how to protect them. Currently, I am also focused on improving my leadership and communication skills to grow as a well-rounded cybersecurity professional.</p>
+                </div>
+                <div class="competencies">
+                    <h3 class="code-font competency-header">Core Competencies</h3>
+                    <div class="skills-container">
+                        <div class="skill-chip">Cybersecurity Foundations</div>
+                        <div class="skill-chip">Secure Coding</div>
+                        <div class="skill-chip">Linux Administration</div>
+                        <div class="skill-chip">Problem Solving</div>
+                        <div class="skill-chip">Client Management</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="section-header animate-header">Technical Stack</h2>
+            <h3 class="code-font skill-subheader">Programming & Tools</h3>
+            <div class="skills-container">
+                <div class="skill-chip">Python</div>
+                <div class="skill-chip">C / C++</div>
+                <div class="skill-chip">JavaScript</div>
+                <div class="skill-chip">HTML/CSS</div>
+                <div class="skill-chip">MySQL</div>
+                <div class="skill-chip">Java</div>
+                <div class="skill-chip">Bash</div>
+                <div class="skill-chip">Git/GitHub</div>
+                <div class="skill-chip">Docker</div>
+                <div class="skill-chip">VS Code</div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-header animate-header">Deployments</h2>
+            <div class="projects-grid">
+                
+                <div class="project-card" onclick="window.open('https://github.com/Prince-codes/Cyber-Security-tools-Python')">
+                    <div class="card-top"><i class="fas fa-shield-alt folder-icon"></i><i class="fab fa-github github-link"></i></div>
+                    <h3 class="project-title">Cyber Security Tools</h3>
+                    <p class="project-desc">A collection of custom Python scripts for security auditing and automation.</p>
+                    <div class="project-tech"><span>Python</span><span>Security</span></div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://github.com/Prince-codes/invoice')">
+                    <div class="card-top"><i class="fas fa-file-invoice-dollar folder-icon"></i><i class="fab fa-github github-link"></i></div>
+                    <h3 class="project-title">Invoice Generator</h3>
+                    <p class="project-desc">Business utility tool for generating dynamic invoices.</p>
+                    <div class="project-tech"><span>Python</span><span>Automation</span></div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://github.com/Prince-codes/Projects')">
+                    <div class="card-top"><i class="fas fa-cubes folder-icon"></i><i class="fab fa-github github-link"></i></div>
+                    <h3 class="project-title">Project Sandbox</h3>
+                    <p class="project-desc">A central repository for various coding experiments and prototypes.</p>
+                    <div class="project-tech"><span>C</span><span>Python</span><span>JS</span></div>
+                </div>
+
+                <div class="project-card" onclick="window.open('https://github.com/Prince-codes/Hackathon-Project')">
+                    <div class="card-top"><i class="fas fa-trophy folder-icon"></i><i class="fab fa-github github-link"></i></div>
+                    <h3 class="project-title">Hackathon Project</h3>
+                    <p class="project-desc">Rapid prototype developed during a hackathon event. Focus on teamwork and speed.</p>
+                    <div class="project-tech"><span>Hackathon</span><span>Team</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="contact-inner">
+                <h2 class="section-header animate-header">Initialize Handshake</h2>
+                <p class="contact-subtext">
+                    I am actively seeking opportunities and collaborations. Let's connect and build something secure.
+                </p>
+                <a href="mailto:contact.princerajsingh@gmail.com" class="cta-button primary-cta">
+                    Send Email
+                </a>
+                <div class="social-links-container">
+                    <a href="https://linkedin.com/in/carnage-sentinels-prince" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com/Prince-codes" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="tel:+917209449005" target="_blank" class="social-link"><i class="fas fa-phone"></i></a>
+                </div>
+                <p class="footer-text">© 2025 Prince Raj Singh. Built with secure code and coffee.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <div class="dock-container" id="dock">
+        <a href="#home" class="dock-item" data-label="Home"><i class="fas fa-terminal"></i></a>
+        <a href="#about" class="dock-item" data-label="About"><i class="fas fa-user-astronaut"></i></a>
+        <a href="#skills" class="dock-item" data-label="Skills"><i class="fas fa-layer-group"></i></a>
+        <a href="#projects" class="dock-item" data-label="Projects"><i class="fas fa-code-branch"></i></a>
+        <a href="#contact" class="dock-item" data-label="Contact"><i class="fas fa-envelope-open-text"></i></a>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
