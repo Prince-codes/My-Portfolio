@@ -271,6 +271,13 @@ function animateBalls() {
     requestAnimationFrame(animateBalls);
 }
 
+// --- 4. CONTACT CARD FLIP ---
+const card = document.getElementById("contactCard");
+
+card.addEventListener("click", () => {
+    card.classList.toggle("flipped");
+});
+
 // Initialization on load
 window.onload = () => {
     resize();
