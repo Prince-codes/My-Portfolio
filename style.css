@@ -1,13 +1,13 @@
 /* --- VARIABLES & THEMES --- */
 :root {
     /* Dark Mode (Default) */
-    --bg-dark: #06141B;
-    --bg-panel: #11212D;
-    --card-bg: #253745;
+    --bg-dark: #0d1117;
+    --bg-panel: #161b22;
+    --card-bg: #161b22;
     --accent-muted: #4A5C6A;
-    --text-gray: #9BA8AB;
-    --text-white: #CCD0CF;
-    --neon-blue: #7BBBFF;  /* Primary Accent */
+    --text-gray: #f0f6fc;
+    --text-white: #f0f6fc;
+    --neon-blue: #58a6ff;  /* Primary Accent */
     --accent-purple: #B8A9FF;
     
     --glass: rgba(17, 33, 45, 0.7);
@@ -17,17 +17,17 @@
 
 /* Light Mode Variables - Defined for seamless JS toggle */
 .light-theme {
-    --bg-dark: #F2FDFF; 
-    --bg-panel: #e0e6e8;
+    --bg-dark: #f8f9fa; 
+    --bg-panel: #f6f8fa;
     --card-bg: #ffffff;
-    --accent-muted: #CCD0CF;
-    --text-gray: #4A5C6A;
-    --text-white: #050F2A; /* Deep Blue for dark text */
-    --neon-blue: #050F2A; /* Dark accent for light theme */
-    --accent-purple: #7BBBFF;
+    --accent-muted: #d1d5db;
+    --text-gray: #586069;
+    --text-white: #24292f; /* Dark text for light mode */
+    --neon-blue: #0366d6; /* Darker blue accent for light theme */
+    --accent-purple: #6f42c1;
     
-    --glass: rgba(255, 255, 255, 0.8);
-    --border: rgba(5, 15, 42, 0.1);
+    --glass: rgba(255, 255, 255, 0.9);
+    --border: rgba(36, 41, 47, 0.1);
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -76,15 +76,15 @@ a {
     right: 40px;
     z-index: 1000;
 }
-/* Day/Night Switch CSS (Unchanged from original request) */
+/* Day/Night Switch CSS */
 .switch { font-size: 17px; position: relative; display: inline-block; width: 3.5em; height: 2em; cursor: pointer; }
 .switch input { opacity: 0; width: 0; height: 0; }
-.slider { --background: #20262c; position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--background); transition: 0.5s; border-radius: 30px; border: 1px solid var(--accent-muted); }
-.slider:before { position: absolute; content: ""; height: 1.4em; width: 1.4em; border-radius: 50%; left: 10%; bottom: 15%; box-shadow: inset 8px -4px 0px 0px #ececd9, -4px 1px 4px 0px #dadada; background: var(--background); transition: 0.5s; }
-.decoration { position: absolute; content: ""; height: 2px; width: 2px; border-radius: 50%; right: 20%; top: 15%; background: #e5f041e6; backdrop-filter: blur(10px); transition: all 0.5s; box-shadow: -7px 10px 0 #e5f041e6, 8px 15px 0 #e5f041e6, -17px 1px 0 #e5f041e6, -20px 10px 0 #e5f041e6, -7px 23px 0 #e5f041e6, -15px 25px 0 #e5f041e6; }
-input:checked ~ .decoration { transform: translateX(-20px); width: 10px; height: 10px; background: white; box-shadow: -12px 0 0 white, -6px 0 0 1.6px white, 5px 15px 0 1px white, 1px 17px 0 white, 10px 17px 0 white; }
-input:checked + .slider { background-color: #5494de; }
-input:checked + .slider:before { transform: translateX(100%); box-shadow: inset 15px -4px 0px 15px #efdf2b, 0 0 10px 0px #efdf2b; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--card-bg); transition: 0.5s; border-radius: 30px; border: 1px solid var(--accent-muted); }
+.slider:before { position: absolute; content: ""; height: 1.4em; width: 1.4em; border-radius: 50%; left: 10%; bottom: 15%; background: var(--text-white); transition: 0.5s; box-shadow: 0 2px 4px var(--shadow-color); }
+.decoration { position: absolute; content: ""; height: 2px; width: 2px; border-radius: 50%; right: 20%; top: 15%; background: var(--neon-blue); backdrop-filter: blur(10px); transition: all 0.5s; box-shadow: -7px 10px 0 var(--neon-blue), 8px 15px 0 var(--neon-blue), -17px 1px 0 var(--neon-blue), -20px 10px 0 var(--neon-blue), -7px 23px 0 var(--neon-blue), -15px 25px 0 var(--neon-blue); }
+input:checked ~ .decoration { transform: translateX(-20px); width: 10px; height: 10px; background: var(--text-white); box-shadow: -12px 0 0 var(--text-white), -6px 0 0 1.6px var(--text-white), 5px 15px 0 1px var(--text-white), 1px 17px 0 var(--text-white), 10px 17px 0 var(--text-white); }
+input:checked + .slider { background-color: var(--neon-blue); border-color: var(--neon-blue); }
+input:checked + .slider:before { transform: translateX(100%); background: var(--bg-dark); box-shadow: 0 2px 4px var(--shadow-color); }
 
 
 /* --- HERO SECTION --- */
@@ -180,13 +180,13 @@ section { padding: 120px 0; }
 /* --- ABOUT & SKILLS LAYOUT --- */
 .grid-2 {
     display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Adjusted for better content balance */
+    grid-template-columns: 1.5fr 1fr;
     gap: 4rem;
     align-items: start;
 }
 
 .about-text p {
-    font-size: 1.15rem; /* Text Sizing: Slightly larger for readability */
+    font-size: 1.15rem; /* Text Sizing:  for readability */
     line-height: 1.7;
     color: var(--text-gray);
     margin-bottom: 1.5rem;

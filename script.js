@@ -1,4 +1,4 @@
-// --- 1. SMOOTH SCROLL (Lenis) ---
+// --- SMOOTH SCROLL (Lenis is used) ---
 const lenis = new Lenis();
 function raf(time) {
     lenis.raf(time);
@@ -9,7 +9,7 @@ requestAnimationFrame(raf);
 // Detect if mobile
 const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-// --- 2. DOCK ANIMATION (Mimicking React Dock) ---
+// --- DOCK ANIMATION (Mimicking React Dock) ---
 const dock = document.getElementById('dock');
 const dockItems = document.querySelectorAll('.dock-item');
 const baseWidth = 50;
@@ -66,7 +66,7 @@ if (dock) {
     document.querySelector('.dock-item[href="#home"]').classList.add('active');
 }
 
-// --- 3. ANIME.JS STAGGER & SCROLL ANIMATIONS ---
+// ---  ANIME.JS STAGGER & SCROLL ANIMATIONS ---
 
 function initAnime() {
     // Wrap header letters
@@ -114,7 +114,7 @@ function initAnime() {
 }
 
 
-// --- 4. TYPEWRITER ---
+// --- TYPEWRITER ---
 const taglineText = "𝚂𝚒𝚙𝚙𝚒𝚗𝚐 𝚌𝚘𝚏𝚏𝚎𝚎 ☕ >> 𝚃𝚞𝚛𝚗𝚒𝚗𝚐 𝚌𝚊𝚏𝚏𝚎𝚒𝚗𝚎 𝚒𝚗𝚝𝚘 <𝚌𝚘𝚍𝚎/>;";
 let charIndex = 0;
 function type() {
@@ -124,9 +124,9 @@ function type() {
         setTimeout(type, 50);
     }
 }
-setTimeout(type, 1500); // Wait for hero animation to start
+setTimeout(type, 1500); 
 
-// --- 5. CLICK SPARK ---
+// --- CLICK SPARK ---
 document.addEventListener('click', (e) => {
     // Reduce spark particles on mobile for better performance
     const sparkCount = isMobile ? 4 : 8;
@@ -151,21 +151,21 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// --- 6. THEME TOGGLE (FIXED) ---
+// ---  THEME TOGGLE  ---
 const toggleSwitch = document.querySelector('#switch');
 
 const darkTheme = {
-    '--bg-dark': '#06141B', '--bg-panel': '#11212D', '--card-bg': '#253745', 
-    '--accent-muted': '#4A5C6A', '--text-gray': '#9BA8AB', '--text-white': '#CCD0CF', 
-    '--neon-blue': '#7BBBFF', '--accent-purple': '#B8A9FF', '--glass': 'rgba(17, 33, 45, 0.7)', 
+    '--bg-dark': '#0d1117', '--bg-panel': '#161b22', '--card-bg': '#161b22', 
+    '--accent-muted': '#4A5C6A', '--text-gray': '#f0f6fc', '--text-white': '#f0f6fc', 
+    '--neon-blue': '#58a6ff', '--accent-purple': '#B8A9FF', '--glass': 'rgba(17, 33, 45, 0.7)', 
     '--border': 'rgba(123, 187, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
 };
 
 const lightTheme = {
-    '--bg-dark': '#F2FDFF', '--bg-panel': '#e0e6e8', '--card-bg': '#ffffff', 
-    '--accent-muted': '#CCD0CF', '--text-gray': '#4A5C6A', '--text-white': '#050F2A', 
-    '--neon-blue': '#050F2A', '--accent-purple': '#7BBBFF', '--glass': 'rgba(255, 255, 255, 0.8)', 
-    '--border': 'rgba(5, 15, 42, 0.1)', '--shadow-color': 'rgba(0, 0, 0, 0.1)'
+    '--bg-dark': '#f8f9fa', '--bg-panel': '#f6f8fa', '--card-bg': '#ffffff', 
+    '--accent-muted': '#d1d5db', '--text-gray': '#586069', '--text-white': '#24292f', 
+    '--neon-blue': '#0366d6', '--accent-purple': '#6f42c1', '--glass': 'rgba(255, 255, 255, 0.9)', 
+    '--border': 'rgba(36, 41, 47, 0.1)', '--shadow-color': 'rgba(0, 0, 0, 0.1)'
 };
 
 function applyTheme(theme) {
@@ -174,10 +174,9 @@ function applyTheme(theme) {
     }
     document.body.setAttribute('data-theme', theme === darkTheme ? 'dark' : 'light');
     
-    // Update canvas balls for new theme
     const isLight = theme === lightTheme;
     balls.forEach(b => {
-        const lightColors = ['#B8A9FF', '#7BBBFF', '#CCD0CF'];
+        const lightColors = ['#6f42c1', '#0366d6', '#24292f'];
         const darkColors = ['#253745', '#4A5C6A', '#11212D'];
         b.color = isLight ? lightColors[Math.floor(Math.random()*3)] : darkColors[Math.floor(Math.random()*3)];
     });
@@ -191,7 +190,7 @@ toggleSwitch.addEventListener('change', function(e) {
     }
 });
 
-// --- 7. CANVAS BALLPIT (Physics-ish) ---
+// --- CANVAS BALLPIT  ---
 const canvas = document.getElementById('ballpit');
 const ctx = canvas.getContext('2d');
 let balls = [];
@@ -271,7 +270,7 @@ function animateBalls() {
     requestAnimationFrame(animateBalls);
 }
 
-// --- 4. CONTACT CARD FLIP ---
+// --- CONTACT CARD FLIP ---
 const card = document.getElementById("contactCard");
 
 card.addEventListener("click", () => {
