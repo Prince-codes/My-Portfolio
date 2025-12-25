@@ -459,6 +459,37 @@ section { padding: 120px 0; }
     text-decoration: none;
 }
 
+/* Email row behave like the icon buttons: hover + focus states */
+.contact-row.email {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.25s ease;
+}
+.contact-row.email i {
+    color: var(--neon-blue);
+    font-size: 1.05rem;
+    transition: color 0.25s ease, transform 0.25s ease;
+}
+.contact-row.email:hover,
+.contact-row.email:focus-within {
+    background: rgba(123,187,255,0.15);
+    border-color: rgba(123,187,255,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(123,187,255,0.12);
+}
+.contact-row.email:hover i,
+.contact-row.email:focus-within i,
+.contact-row.email:hover a,
+.contact-row.email:focus-within a {
+    color: var(--text-white);
+    transform: scale(1.05);
+}
+.contact-row.email a:hover {
+    color: var(--text-white);
+    text-decoration: underline;
+}
+
 .icon-row {
     display: flex;
     gap: 1.4rem;
