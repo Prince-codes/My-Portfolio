@@ -17,18 +17,50 @@
 
 /* Light Mode Variables - Defined for seamless JS toggle */
 .light-theme {
-    --bg-dark: #f8f9fa; 
-    --bg-panel: #f6f8fa;
-    --card-bg: #ffffff;
-    --accent-muted: #d1d5db;
-    --text-gray: #586069;
-    --text-white: #24292f; /* Dark text for light mode */
-    --neon-blue: #0366d6; /* Darker blue accent for light theme */
-    --accent-purple: #6f42c1;
+    --bg-dark: #232323; 
+    --bg-panel: #232323;
+    --card-bg: #232323;
+    --accent-muted: #FFFFFF;
+    --text-gray: #FFFFFF;
+    --text-white: #FFFFFF;
+    --neon-blue: #008DF8;
+    --accent-purple: #6D43A6;
     
-    --glass: rgba(255, 255, 255, 0.9);
-    --border: rgba(36, 41, 47, 0.1);
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --glass: rgba(35, 35, 35, 0.7);
+    --border: rgba(255, 255, 255, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Catppuccin Frappé Theme */
+.catppuccin-frappe {
+    --bg-dark: #303446; 
+    --bg-panel: #303446;
+    --card-bg: #303446;
+    --accent-muted: #D9E0EE;
+    --text-gray: #D9E0EE;
+    --text-white: #D9E0EE;
+    --neon-blue: #96CDFB;
+    --accent-purple: #F2CDCD;
+    
+    --glass: rgba(48, 52, 70, 0.7);
+    --border: rgba(217, 224, 238, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
+/* City Lights Theme */
+.city-lights {
+    --bg-dark: #171D23; 
+    --bg-panel: #171D23;
+    --card-bg: #171D23;
+    --accent-muted: #B7C5D3;
+    --text-gray: #B7C5D3;
+    --text-white: #B7C5D3;
+    --neon-blue: #539AFC;
+    --accent-purple: #D2A6FF;
+    
+    --glass: rgba(23, 29, 35, 0.7);
+    --border: rgba(183, 197, 211, 0.2);
+    --shadow-color: rgba(0, 0, 0, 0.4);
 }
 
 /* RESET & BASE */

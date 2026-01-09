@@ -162,32 +162,50 @@ const darkTheme = {
 };
 
 const lightTheme = {
-    '--bg-dark': '#f8f9fa', '--bg-panel': '#f6f8fa', '--card-bg': '#ffffff', 
-    '--accent-muted': '#d1d5db', '--text-gray': '#586069', '--text-white': '#24292f', 
-    '--neon-blue': '#0366d6', '--accent-purple': '#6f42c1', '--glass': 'rgba(255, 255, 255, 0.9)', 
-    '--border': 'rgba(36, 41, 47, 0.1)', '--shadow-color': 'rgba(0, 0, 0, 0.1)'
+    '--bg-dark': '#232323', '--bg-panel': '#232323', '--card-bg': '#232323', 
+    '--accent-muted': '#FFFFFF', '--text-gray': '#FFFFFF', '--text-white': '#FFFFFF', 
+    '--neon-blue': '#008DF8', '--accent-purple': '#6D43A6', '--glass': 'rgba(35, 35, 35, 0.7)', 
+    '--border': 'rgba(255, 255, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
 };
 
-function applyTheme(theme) {
+const catppuccinFrappe = {
+    '--bg-dark': '#303446', '--bg-panel': '#303446', '--card-bg': '#303446', 
+    '--accent-muted': '#D9E0EE', '--text-gray': '#D9E0EE', '--text-white': '#D9E0EE', 
+    '--neon-blue': '#96CDFB', '--accent-purple': '#F2CDCD', '--glass': 'rgba(48, 52, 70, 0.7)', 
+    '--border': 'rgba(217, 224, 238, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
+};
+
+const cityLights = {
+    '--bg-dark': '#171D23', '--bg-panel': '#171D23', '--card-bg': '#171D23', 
+    '--accent-muted': '#B7C5D3', '--text-gray': '#B7C5D3', '--text-white': '#B7C5D3', 
+    '--neon-blue': '#539AFC', '--accent-purple': '#D2A6FF', '--glass': 'rgba(23, 29, 35, 0.7)', 
+    '--border': 'rgba(183, 197, 211, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
+};
+
+const themes = [darkTheme, lightTheme, catppuccinFrappe, cityLights];
+const themeColors = [
+    ['#253745', '#4A5C6A', '#11212D'], // dark
+    ['#008DF8', '#6D43A6', '#00D8EB'], // argonaut
+    ['#96CDFB', '#F2CDCD', '#89DCEB'], // frappe
+    ['#539AFC', '#D2A6FF', '#70E1E8'] // city lights
+];
+let currentThemeIndex = 0;
+
+function applyTheme(themeIndex) {
+    const theme = themes[themeIndex];
     for (const [key, value] of Object.entries(theme)) {
         root.style.setProperty(key, value);
     }
-    document.body.setAttribute('data-theme', theme === darkTheme ? 'dark' : 'light');
+    document.body.setAttribute('data-theme', ['dark', 'argonaut', 'frappe', 'citylights'][themeIndex]);
     
-    const isLight = theme === lightTheme;
     balls.forEach(b => {
-        const lightColors = ['#6f42c1', '#0366d6', '#24292f'];
-        const darkColors = ['#253745', '#4A5C6A', '#11212D'];
-        b.color = isLight ? lightColors[Math.floor(Math.random()*3)] : darkColors[Math.floor(Math.random()*3)];
+        b.color = themeColors[themeIndex][Math.floor(Math.random()*3)];
     });
 }
 
 toggleSwitch.addEventListener('change', function(e) {
-    if(e.target.checked) {
-        applyTheme(lightTheme);
-    } else {
-        applyTheme(darkTheme);
-    }
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+    applyTheme(currentThemeIndex);
 });
 
 // --- CANVAS BALLPIT  ---
