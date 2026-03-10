@@ -4,47 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prince Raj Singh</title>
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body data-theme="dark">
+
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <!-- Atmosphere layers -->
+    <div id="noise-overlay"></div>
+    <div id="scanlines"></div>
 
     <div id="canvas-wrapper">
         <canvas id="ballpit"></canvas>
     </div>
 
-    <div class="toggle-wrapper">
-        <label for="switch" class="switch">
-            <input id="switch" type="checkbox" />
-            <span class="slider"></span>
-            <span class="decoration"></span>
-        </label>
+    <!-- Aurora background orbs -->
+    <div id="aurora">
+        <div class="aurora-orb"></div>
+        <div class="aurora-orb"></div>
+        <div class="aurora-orb"></div>
+    </div>
+
+    <!-- Theme Picker -->
+    <div class="theme-picker-wrapper" id="themePicker">
+        <button class="theme-trigger" id="themeBtn" title="Change Theme">
+            <i class="fas fa-palette"></i>
+            <span class="theme-trigger-label" id="themeLabel">GitHub Dark</span>
+            <i class="fas fa-chevron-down theme-chevron" id="themeChevron"></i>
+        </button>
+        <div class="theme-panel" id="themePanel">
+            <p class="theme-panel-title">Choose Theme</p>
+            <div class="theme-swatches">
+                <button class="swatch active" data-theme-index="0" title="GitHub Dark">
+                    <span class="swatch-dot" style="background:#58a6ff"></span>
+                    <span class="swatch-dot" style="background:#B8A9FF"></span>
+                    <span class="swatch-dot" style="background:#0d1117"></span>
+                    <span class="swatch-name">GitHub Dark</span>
+                </button>
+                <button class="swatch" data-theme-index="1" title="Dracula">
+                    <span class="swatch-dot" style="background:#bd93f9"></span>
+                    <span class="swatch-dot" style="background:#ff79c6"></span>
+                    <span class="swatch-dot" style="background:#282a36"></span>
+                    <span class="swatch-name">Dracula</span>
+                </button>
+                <button class="swatch" data-theme-index="2" title="Nord">
+                    <span class="swatch-dot" style="background:#88c0d0"></span>
+                    <span class="swatch-dot" style="background:#81a1c1"></span>
+                    <span class="swatch-dot" style="background:#2e3440"></span>
+                    <span class="swatch-name">Nord</span>
+                </button>
+                <button class="swatch" data-theme-index="3" title="Catppuccin">
+                    <span class="swatch-dot" style="background:#96CDFB"></span>
+                    <span class="swatch-dot" style="background:#F2CDCD"></span>
+                    <span class="swatch-dot" style="background:#303446"></span>
+                    <span class="swatch-name">Catppuccin</span>
+                </button>
+                <button class="swatch" data-theme-index="4" title="Tokyo Night">
+                    <span class="swatch-dot" style="background:#7aa2f7"></span>
+                    <span class="swatch-dot" style="background:#bb9af7"></span>
+                    <span class="swatch-dot" style="background:#1a1b2e"></span>
+                    <span class="swatch-name">Tokyo Night</span>
+                </button>
+                <button class="swatch" data-theme-index="5" title="Solarized">
+                    <span class="swatch-dot" style="background:#268bd2"></span>
+                    <span class="swatch-dot" style="background:#2aa198"></span>
+                    <span class="swatch-dot" style="background:#002b36"></span>
+                    <span class="swatch-name">Solarized</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <main class="container">
-        
+
+        <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
         <section id="home" class="hero">
+            <div class="availability-badge">
+                <span class="availability-dot"></span>
+                Available for opportunities
+            </div>
             <span class="hero-subtitle code-font">&lt;Software Development Engineer & SOC_Analyst /&gt;</span>
             <h1 class="hero-title animate-title">
                 Prince Raj Singh
             </h1>
-            <div class="tagline-wrapper">
-                <p class="typewriter code-font" id="typewriter-text"></p>
+            <!-- Animated tagline console -->
+            <div class="tagline-console" id="taglineConsole">
+                <div class="console-topbar">
+                    <span class="console-dot dot-red"></span>
+                    <span class="console-dot dot-yellow"></span>
+                    <span class="console-dot dot-green"></span>
+                    <span class="console-title">prince@dev ~ zsh</span>
+                </div>
+                <div class="console-body">
+                    <span class="console-prompt">❯</span>
+                    <p class="typewriter code-font" id="typewriter-text" style="color:#ffffff !important; opacity:1 !important;"></p>
+                    <span class="console-cursor" id="consoleCursor">▋</span>
+                </div>
+                <div class="console-glow"></div>
             </div>
             <a href="#projects" class="cta-button">View Projects <i class="fas fa-arrow-right"></i></a>
+
+            <!-- Hex grid decoration -->
+            <div class="hex-grid" aria-hidden="true"></div>
+
+            <!-- Scroll cue -->
+            <div class="scroll-indicator">
+                <span>SCROLL</span>
+                <div class="scroll-line"></div>
+            </div>
         </section>
 
-        <section id="about">
+        <!-- ═══════════════════════════════ ABOUT ═══════════════════════════════ -->
+        <section id="about" style="position:relative;" class="reveal">
+            <div class="section-grid-deco"></div>
             <h2 class="section-header animate-header">About Me</h2>
             <div class="grid-2">
-                <div class="about-text">
-                    <p>I'm an entry-level <strong>cybersecurity learner</strong> with a foundational understanding of Linux systems and file structures. My passion lies in secure coding, error handling, and logical problem-solving.</p>
-                    <p>I enjoy exploring how systems work and how to protect them. Currently, I am also focused on improving my leadership and communication skills to grow as a well-rounded cybersecurity professional.</p>
+                <div>
+                    <div class="about-text">
+                        <p>I'm an entry-level <strong>cybersecurity learner</strong> with a foundational understanding of Linux systems and file structures. My passion lies in secure coding, error handling, and logical problem-solving.</p>
+                        <p>I enjoy exploring how systems work and how to protect them. Currently, I am also focused on improving my leadership and communication skills to grow as a well-rounded cybersecurity professional.</p>
+                    </div>
+                    <!-- Mini stats -->
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <span class="stat-number counter" data-target="5">0</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number counter" data-target="8">0</span>
+                            <span class="stat-label">Languages</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number counter" data-target="1">0</span>
+                            <span class="stat-label">Internship</span>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h3 class="code-font" style="color:var(--text-white); margin-bottom:1.5rem;">Core Competencies</h3>
@@ -55,25 +155,37 @@
                         <div class="skill-chip">Problem Solving</div>
                         <div class="skill-chip">Client Management</div>
                     </div>
+
+                    <!-- Terminal block -->
+                    <div class="terminal-block" id="termBlock" style="margin-top:2rem; padding-top: 2rem;">
+                        <div class="terminal-line cmd" style="animation-delay:0.2s">$ whoami</div>
+                        <div class="terminal-line out" style="animation-delay:0.6s">prince_raj_singh</div>
+                        <div class="terminal-line cmd" style="animation-delay:1.0s">$ cat interests.txt</div>
+                        <div class="terminal-line out" style="animation-delay:1.4s">cybersecurity | full-stack | AI tools</div>
+                        <div class="terminal-line cmd" style="animation-delay:1.8s">$ echo $STATUS</div>
+                        <div class="terminal-line comment" style="animation-delay:2.2s">▸ open_to_work=true</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="experience">
+        <!-- ═══════════════════════════════ EXPERIENCE ═══════════════════════════════ -->
+        <section id="experience" class="reveal">
             <h2 class="section-header animate-header">Work Experience</h2>
             <div class="experience-list">
                 <div class="experience-card">
-                    <h3 class="experience-role code-font">Software Engineer Intern - Full Stack</h3>
+                    <h3 class="experience-role code-font">Software Engineer Intern — Full Stack</h3>
                     <div class="experience-meta" style="margin-bottom:0.5rem;">
                         <strong class="code-font">R-CUBE DIGITAL SERVICES</strong>
-                        <span class="experience-dates" style="color:var(--text-gray); margin-left:1rem;">May 2025 - June 2025</span>
+                        <span style="color:var(--text-gray); margin-left:1rem; opacity:0.6; font-family:'JetBrains Mono'; font-size:0.85rem;">May 2025 – June 2025</span>
                     </div>
-                    <p>Task Management System: A web-based task management system supporting three user roles (Admin, Manager, Employee). Features include employee management, task assignment, progress tracking, and database viewing.</p>
+                    <p style="color:var(--text-gray); line-height:1.7;">Task Management System: A web-based task management system supporting three user roles (Admin, Manager, Employee). Features include employee management, task assignment, progress tracking, and database viewing.</p>
                 </div>
             </div>
         </section>
 
-        <section id="skills">
+        <!-- ═══════════════════════════════ SKILLS ═══════════════════════════════ -->
+        <section id="skills" class="reveal">
             <h2 class="section-header animate-header">Technical Stack</h2>
             <div class="skills-grid">
                 <div class="skill-category">
@@ -81,7 +193,7 @@
                     <div class="skills-container">
                         <div class="skill-chip">Java</div>
                         <div class="skill-chip">Python</div>
-                        <div class="skill-chip">Bash (Shell Scripting)</div>
+                        <div class="skill-chip">Bash</div>
                         <div class="skill-chip">C (Basics)</div>
                         <div class="skill-chip">C++ (Basics)</div>
                         <div class="skill-chip">HTML</div>
@@ -89,6 +201,7 @@
                         <div class="skill-chip">JavaScript</div>
                     </div>
                 </div>
+
                 <div class="skill-category">
                     <h3 class="code-font" style="color:var(--text-white); margin-bottom:1.5rem;">Databases</h3>
                     <div class="skills-container">
@@ -98,24 +211,14 @@
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3 class="code-font" style="color:var(--text-white); margin-bottom:1.5rem;">Cloud & DevOps</h3>
-                    <div class="skills-container">
-                        <div class="skill-chip">Git</div>
-                    </div>
-                </div>
-                <div class="skill-category">
                     <h3 class="code-font" style="color:var(--text-white); margin-bottom:1.5rem;">Other Skills</h3>
                     <div class="skills-container">
-                        <div class="skill-chip">AI-Assisted Development</div>
+                        <div class="skill-chip">AI-Assisted Dev</div>
                         <div class="skill-chip">Functional Programming</div>
                         <div class="skill-chip">System Design</div>
                         <div class="skill-chip">Data Structures</div>
                         <div class="skill-chip">Algorithms</div>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3 class="code-font" style="color:var(--text-white); margin-bottom:1.5rem;">Operating Systems</h3>
-                    <div class="skills-container">
+                        <div class="skill-chip">Git</div>
                         <div class="skill-chip">Linux</div>
                         <div class="skill-chip">Windows</div>
                     </div>
@@ -123,28 +226,29 @@
             </div>
         </section>
 
-        <section id="projects">
+        <!-- ═══════════════════════════════ PROJECTS ═══════════════════════════════ -->
+        <section id="projects" class="reveal">
             <h2 class="section-header animate-header">Deployments</h2>
             <div class="projects-grid">
-                
+
                 <div class="project-card" onclick="window.open('https://github.com/Prince-codes/HandSync')">
                     <div class="card-top"><i class="fas fa-hand-paper folder-icon"></i><i class="fab fa-github github-link"></i></div>
                     <h3 class="project-title">HandSync</h3>
                     <p class="project-desc">A Python-powered tool that enables computer control through real-time hand gesture detection using webcam input.</p>
                     <div class="project-tech"><span>Python</span></div>
                 </div>
-                
+
                 <div class="project-card" onclick="window.open('https://github.com/Prince-codes/GeoGuessr')">
                     <div class="card-top"><i class="fas fa-map folder-icon"></i><i class="fab fa-github github-link"></i></div>
                     <h3 class="project-title">GeoGuessr</h3>
-                    <p class="project-desc">An immersive, futuristic geog, phy guessing game built with Google Street View and Maps.</p>
+                    <p class="project-desc">An immersive, futuristic geography guessing game built with Google Street View and Maps.</p>
                     <div class="project-tech"><span>HTML</span><span>CSS</span><span>JS</span></div>
                 </div>
 
-                <div class="project-card" onclick="window.open(' https://github.com/Prince-codes/Auto-Cursor-Movement')">
+                <div class="project-card" onclick="window.open('https://github.com/Prince-codes/Auto-Cursor-Movement')">
                     <div class="card-top"><i class="fas fa-mouse-pointer folder-icon"></i><i class="fab fa-github github-link"></i></div>
                     <h3 class="project-title">Auto-Cursor-Movement</h3>
-                    <p class="project-desc">This project provides a Python script to automatically move your mouse cursor by smoothly dragging it within the currently active (foreground) window at regular intervals.</p>
+                    <p class="project-desc">Python script to automatically move your mouse cursor by smoothly dragging it within the active foreground window at regular intervals.</p>
                     <div class="project-tech"><span>Python</span></div>
                 </div>
 
@@ -163,56 +267,44 @@
                 </div>
 
                 <div class="project-card">
-                    <div class="card-top"><i class="fas fa-plus-circle folder-icon"></i><i class="fab fa-github github-link" style="opacity: 0.5;"></i></div>
+                    <div class="card-top"><i class="fas fa-plus-circle folder-icon"></i><i class="fab fa-github github-link" style="opacity:0.5;"></i></div>
                     <h3 class="project-title">Coming Soon</h3>
                     <p class="project-desc">Exciting new cybersecurity and development projects are in the pipeline. Stay tuned for updates!</p>
                     <div class="project-tech"><span>Coming Soon</span></div>
                 </div>
+
+            </div>
         </section>
 
+        <!-- ═══════════════════════════════ CONTACT ═══════════════════════════════ -->
         <section id="contact" style="padding-bottom: 150px;">
             <div style="text-align: center;">
                 <h2 class="section-header animate-header">Initialize Handshake</h2>
-                <p style="color: var(--text-gray); margin-bottom: 2.5rem; font-size: 1.2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <p style="color: var(--text-gray); margin-bottom: 2.5rem; font-size: 1.2rem; max-width: 600px; margin-left: auto; margin-right: auto; opacity:0.8;">
                     Actively seeking opportunities & collaborations. Let's connect securely.
                 </p>
-                
-                <!-- Interactive Contact Card -->
+
                 <div class="contact-card-container">
                     <div class="contact-card" id="contactCard">
-                        <!-- Front Side -->
                         <div class="card-face front">
                             <div class="card-content">
                                 <h1 class="card-name">Prince Raj Singh</h1>
                                 <p class="card-role">Software Development Engineer · SOC Analyst</p>
-                                <p class="card-caption" style="margin-top: 0.5rem;">Flip to Connect</p>
+                                <p class="card-caption">Click to flip</p>
                                 <div class="card-accent"></div>
                             </div>
                         </div>
-                        
-                        <!-- Back Side -->
                         <div class="card-face back">
                             <div class="card-content back-content">
-
                                 <div class="contact-row email">
                                     <i class="fas fa-envelope"></i>
-                                    <a href="mailto:contact.princerajsingh@gmail.com">
-                                        contact.princerajsingh@gmail.com
-                                    </a>
+                                    <a href="mailto:contact.princerajsingh@gmail.com">contact.princerajsingh@gmail.com</a>
                                 </div>
-
                                 <div class="icon-row">
-                                    <a href="tel:+917209449005" title="Call">
-                                        <i class="fas fa-phone"></i>
-                                    </a>
-                                    <a href="https://linkedin.com/in/princerajsingh" target="_blank" title="LinkedIn">
-                                        <i class="fab fa-linkedin"></i>
-                                    </a>
-                                    <a href="https://github.com/Prince-codes" target="_blank" title="GitHub">
-                                        <i class="fab fa-github"></i>
-                                    </a>
+                                    <a href="tel:+917209449005" title="Call"><i class="fas fa-phone"></i></a>
+                                    <a href="https://linkedin.com/in/princerajsingh" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                                    <a href="https://github.com/Prince-codes" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -222,13 +314,16 @@
 
     </main>
 
+    <!-- Easter egg hint (hidden, triggers on Konami code or typing 'matrix') -->
+    <canvas id="matrix-canvas" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:9990; pointer-events:none;"></canvas>
+
     <div class="dock-container" id="dock">
-        <a href="#home" class="dock-item active" data-label="Home"><i class="fas fa-terminal"></i></a>
-        <a href="#about" class="dock-item" data-label="About"><i class="fas fa-user-astronaut"></i></a>
-        <a href="#experience" class="dock-item" data-label="Experience"><i class="fas fa-briefcase"></i></a>
-        <a href="#skills" class="dock-item" data-label="Skills"><i class="fas fa-layer-group"></i></a>
-        <a href="#projects" class="dock-item" data-label="Projects"><i class="fas fa-code-branch"></i></a>
-        <a href="#contact" class="dock-item" data-label="Contact"><i class="fas fa-envelope-open-text"></i></a>
+        <a href="#home"       class="dock-item active"  data-label="Home"><i class="fas fa-terminal"></i></a>
+        <a href="#about"      class="dock-item"          data-label="About"><i class="fas fa-user-astronaut"></i></a>
+        <a href="#experience" class="dock-item"          data-label="Experience"><i class="fas fa-briefcase"></i></a>
+        <a href="#skills"     class="dock-item"          data-label="Skills"><i class="fas fa-layer-group"></i></a>
+        <a href="#projects"   class="dock-item"          data-label="Projects"><i class="fas fa-code-branch"></i></a>
+        <a href="#contact"    class="dock-item"          data-label="Contact"><i class="fas fa-envelope-open-text"></i></a>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>

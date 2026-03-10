@@ -1,15 +1,55 @@
-// --- SMOOTH SCROLL (Lenis is used) ---
+// --- SMOOTH SCROLL (Lenis) ---
 const lenis = new Lenis();
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
+function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
 requestAnimationFrame(raf);
 
-// Detect if mobile
 const isMobile = window.matchMedia('(max-width: 768px)').matches;
 
-// --- DOCK ANIMATION (Mimicking React Dock) ---
+// ═══════════════════════════════════════════════════════
+// CUSTOM CURSOR
+// ═══════════════════════════════════════════════════════
+if (!isMobile) {
+    const cursor = document.getElementById('cursor');
+    const cursorRing = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        cursor.style.left = mouseX + 'px';
+        cursor.style.top  = mouseY + 'px';
+    });
+
+    // Lagged ring
+    function animateRing() {
+        ringX += (mouseX - ringX) * 0.12;
+        ringY += (mouseY - ringY) * 0.12;
+        cursorRing.style.left = ringX + 'px';
+        cursorRing.style.top  = ringY + 'px';
+        requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Hover swell on interactive elements
+    document.querySelectorAll('a, button, .project-card, .skill-chip, .dock-item, .contact-card, .cta-button').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursor.style.transform = 'translate(-50%,-50%) scale(1.8)';
+            cursorRing.style.width  = '60px';
+            cursorRing.style.height = '60px';
+            cursorRing.style.opacity = '0.3';
+        });
+        el.addEventListener('mouseleave', () => {
+            cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+            cursorRing.style.width  = '36px';
+            cursorRing.style.height = '36px';
+            cursorRing.style.opacity = '0.6';
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════
+// DOCK ANIMATION
+// ═══════════════════════════════════════════════════════
 const dock = document.getElementById('dock');
 const dockItems = document.querySelectorAll('.dock-item');
 const baseWidth = 50;
@@ -18,34 +58,26 @@ const root = document.documentElement;
 if (dock && !isMobile) {
     dock.addEventListener('mousemove', (e) => {
         const mouseX = e.clientX;
-        
         dockItems.forEach(item => {
             const rect = item.getBoundingClientRect();
             const itemCenterX = rect.left + rect.width / 2;
             const distance = Math.abs(mouseX - itemCenterX);
-            
             let scale = 1;
-            if (distance < 150) {
-                // Scale up to 1.6x when mouse is directly over
-                scale = 1 + (1.6 - 1) * (1 - distance / 150); 
-            }
-            
-            item.style.width = `${baseWidth * scale}px`;
-            item.style.height = `${baseWidth * scale}px`;
+            if (distance < 150) scale = 1 + (1.6 - 1) * (1 - distance / 150);
+            item.style.width    = `${baseWidth * scale}px`;
+            item.style.height   = `${baseWidth * scale}px`;
             item.style.fontSize = `${1.2 * scale}rem`;
         });
     });
-
     dock.addEventListener('mouseleave', () => {
         dockItems.forEach(item => {
-            item.style.width = `${baseWidth}px`;
-            item.style.height = `${baseWidth}px`;
+            item.style.width    = `${baseWidth}px`;
+            item.style.height   = `${baseWidth}px`;
             item.style.fontSize = `1.2rem`;
         });
     });
 }
 
-// Handle Dock Active State on Scroll/Click
 if (dock) {
     window.addEventListener('scroll', () => {
         const currentScrollY = window.scrollY + window.innerHeight / 2;
@@ -54,177 +86,302 @@ if (dock) {
                 const sectionId = section.getAttribute('id');
                 dockItems.forEach(item => {
                     item.classList.remove('active');
-                    if (item.getAttribute('href') === `#${sectionId}`) {
-                        item.classList.add('active');
-                    }
+                    if (item.getAttribute('href') === `#${sectionId}`) item.classList.add('active');
                 });
             }
         });
     });
-
-    // Initial check for active state
     document.querySelector('.dock-item[href="#home"]').classList.add('active');
 }
 
-// ---  ANIME.JS STAGGER & SCROLL ANIMATIONS ---
-
+// ═══════════════════════════════════════════════════════
+// ANIME.JS STAGGER ANIMATIONS
+// ═══════════════════════════════════════════════════════
 function initAnime() {
-    // Wrap header letters
     document.querySelectorAll('.animate-title, .animate-header').forEach(el => {
         el.innerHTML = el.textContent.replace(/\S/g, "<span class='letter' style='display:inline-block'>$&</span>");
     });
 
-    // Intro Animation
     anime.timeline()
         .add({
-            targets: '.hero-subtitle',
-            translateY: [20, 0],
-            opacity: [0, 1],
-            easing: "easeOutQuad",
-            duration: 800,
-            delay: 300
+            targets: '.availability-badge',
+            translateY: [20, 0], opacity: [0, 1],
+            easing: 'easeOutQuad', duration: 600, delay: 100
         })
         .add({
+            targets: '.hero-subtitle',
+            translateY: [20, 0], opacity: [0, 1],
+            easing: 'easeOutQuad', duration: 800, delay: 200
+        }, 200)
+        .add({
             targets: '.hero-title .letter',
-            translateY: [100,0],
-            opacity: [0,1],
-            easing: "easeOutExpo",
-            duration: 1200,
+            translateY: [100, 0], opacity: [0, 1],
+            easing: 'easeOutExpo', duration: 1200,
             delay: anime.stagger(isMobile ? 15 : 30)
         }, 0);
 
-    // Scroll Trigger for Section headers - reduced stagger on mobile
+    // Scroll observer for section headers
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if(entry.isIntersecting) {
+            if (entry.isIntersecting) {
                 anime({
                     targets: entry.target.querySelectorAll('.letter'),
-                    translateY: [50, 0],
-                    opacity: [0,1],
-                    easing: "easeOutExpo",
+                    translateY: [50, 0], opacity: [0, 1],
+                    easing: 'easeOutExpo',
                     duration: isMobile ? 600 : 800,
                     delay: anime.stagger(isMobile ? 10 : 20)
                 });
                 observer.unobserve(entry.target);
             }
         });
-    }, {threshold: 0.5});
+    }, { threshold: 0.5 });
 
     document.querySelectorAll('.animate-header').forEach(h => observer.observe(h));
 }
 
+// ═══════════════════════════════════════════════════════
+// SECTION REVEAL ON SCROLL
+// ═══════════════════════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// --- TYPEWRITER ---
+// ═══════════════════════════════════════════════════════
+// COUNTER ANIMATION
+// ═══════════════════════════════════════════════════════
+function animateCounter(el) {
+    const target = parseInt(el.getAttribute('data-target'));
+    const duration = 1200;
+    const step = target / (duration / 16);
+    let current = 0;
+    const timer = setInterval(() => {
+        current += step;
+        if (current >= target) { current = target; clearInterval(timer); }
+        el.textContent = Math.floor(current) + (target > 5 ? '+' : '');
+    }, 16);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.querySelectorAll('.counter').forEach(animateCounter);
+            counterObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stats-row').forEach(s => counterObserver.observe(s));
+
+// ═══════════════════════════════════════════════════════
+// TYPEWRITER
+// ═══════════════════════════════════════════════════════
 const taglineText = "𝚂𝚒𝚙𝚙𝚒𝚗𝚐 𝚌𝚘𝚏𝚏𝚎𝚎 ☕ >> 𝚃𝚞𝚛𝚗𝚒𝚗𝚐 𝚌𝚊𝚏𝚏𝚎𝚒𝚗𝚎 𝚒𝚗𝚝𝚘 <𝚌𝚘𝚍𝚎/>;";
 let charIndex = 0;
+const twEl = document.getElementById('typewriter-text');
+
 function type() {
     if (charIndex < taglineText.length) {
-        document.getElementById('typewriter-text').innerHTML += taglineText.charAt(charIndex);
+        twEl.textContent += taglineText.charAt(charIndex);
+        twEl.style.color = '#ffffff';
+        twEl.style.opacity = '1';
         charIndex++;
         setTimeout(type, 50);
     }
 }
-setTimeout(type, 1500); 
+setTimeout(type, 800);
 
-// --- CLICK SPARK ---
+// ═══════════════════════════════════════════════════════
+// PROJECT CARD — MOUSE SPOTLIGHT + TILT
+// ═══════════════════════════════════════════════════════
+if (!isMobile) {
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const cx = rect.width / 2;
+            const cy = rect.height / 2;
+            const rotX = ((y - cy) / cy) * -6;
+            const rotY = ((x - cx) / cx) *  6;
+            card.style.transform = `perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-6px)`;
+            card.style.setProperty('--mouse-x', (x / rect.width * 100) + '%');
+            card.style.setProperty('--mouse-y', (y / rect.height * 100) + '%');
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+}
+
+// ═══════════════════════════════════════════════════════
+// CLICK SPARK
+// ═══════════════════════════════════════════════════════
 document.addEventListener('click', (e) => {
-    // Reduce spark particles on mobile for better performance
     const sparkCount = isMobile ? 4 : 8;
     const neonBlue = root.style.getPropertyValue('--neon-blue') || '#7BBBFF';
-
-    for(let i=0; i<sparkCount; i++) {
+    for (let i = 0; i < sparkCount; i++) {
         const spark = document.createElement('div');
         spark.classList.add('spark');
         document.body.appendChild(spark);
-        
         spark.style.left = e.pageX + 'px';
-        spark.style.top = e.pageY + 'px';
+        spark.style.top  = e.pageY + 'px';
         spark.style.background = neonBlue;
-        
         const angle = Math.random() * Math.PI * 2;
-        const vel = Math.random() * 50 + 20;
-        
+        const vel   = Math.random() * 50 + 20;
         spark.style.setProperty('--dx', Math.cos(angle) * vel + 'px');
         spark.style.setProperty('--dy', Math.sin(angle) * vel + 'px');
-        
         setTimeout(() => spark.remove(), 600);
     }
 });
 
-// ---  THEME TOGGLE  ---
-const toggleSwitch = document.querySelector('#switch');
-
-const darkTheme = {
-    '--bg-dark': '#0d1117', '--bg-panel': '#161b22', '--card-bg': '#161b22', 
-    '--accent-muted': '#4A5C6A', '--text-gray': '#f0f6fc', '--text-white': '#f0f6fc', 
-    '--neon-blue': '#58a6ff', '--accent-purple': '#B8A9FF', '--glass': 'rgba(17, 33, 45, 0.7)', 
-    '--border': 'rgba(123, 187, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
-};
-
-const lightTheme = {
-    '--bg-dark': '#232323', '--bg-panel': '#232323', '--card-bg': '#232323', 
-    '--accent-muted': '#FFFFFF', '--text-gray': '#FFFFFF', '--text-white': '#FFFFFF', 
-    '--neon-blue': '#008DF8', '--accent-purple': '#6D43A6', '--glass': 'rgba(35, 35, 35, 0.7)', 
-    '--border': 'rgba(255, 255, 255, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
-};
-
-const catppuccinFrappe = {
-    '--bg-dark': '#303446', '--bg-panel': '#303446', '--card-bg': '#303446', 
-    '--accent-muted': '#D9E0EE', '--text-gray': '#D9E0EE', '--text-white': '#D9E0EE', 
-    '--neon-blue': '#96CDFB', '--accent-purple': '#F2CDCD', '--glass': 'rgba(48, 52, 70, 0.7)', 
-    '--border': 'rgba(217, 224, 238, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
-};
-
-const cityLights = {
-    '--bg-dark': '#171D23', '--bg-panel': '#171D23', '--card-bg': '#171D23', 
-    '--accent-muted': '#B7C5D3', '--text-gray': '#B7C5D3', '--text-white': '#B7C5D3', 
-    '--neon-blue': '#539AFC', '--accent-purple': '#D2A6FF', '--glass': 'rgba(23, 29, 35, 0.7)', 
-    '--border': 'rgba(183, 197, 211, 0.2)', '--shadow-color': 'rgba(0, 0, 0, 0.4)'
-};
-
-const themes = [darkTheme, lightTheme, catppuccinFrappe, cityLights];
-const themeColors = [
-    ['#253745', '#4A5C6A', '#11212D'], // dark
-    ['#008DF8', '#6D43A6', '#00D8EB'], // argonaut
-    ['#96CDFB', '#F2CDCD', '#89DCEB'], // frappe
-    ['#539AFC', '#D2A6FF', '#70E1E8'] // city lights
-];
-let currentThemeIndex = 0;
-
-function applyTheme(themeIndex) {
-    const theme = themes[themeIndex];
-    for (const [key, value] of Object.entries(theme)) {
-        root.style.setProperty(key, value);
-    }
-    document.body.setAttribute('data-theme', ['dark', 'argonaut', 'frappe', 'citylights'][themeIndex]);
-    
-    balls.forEach(b => {
-        b.color = themeColors[themeIndex][Math.floor(Math.random()*3)];
+// ═══════════════════════════════════════════════════════
+// HERO GLITCH ON HOVER
+// ═══════════════════════════════════════════════════════
+const heroTitle = document.querySelector('.hero-title');
+if (heroTitle) {
+    heroTitle.addEventListener('mouseenter', () => {
+        heroTitle.classList.add('glitch');
+        setTimeout(() => heroTitle.classList.remove('glitch'), 1000);
     });
 }
 
-toggleSwitch.addEventListener('change', function(e) {
-    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-    applyTheme(currentThemeIndex);
-});
+// ═══════════════════════════════════════════════════════
+// THEME SYSTEM — 6 themes with picker UI
+// ═══════════════════════════════════════════════════════
+const themes = [
+    {
+        name: 'GitHub Dark',
+        vars: {
+            '--bg-dark': '#0d1117', '--bg-panel': '#161b22', '--card-bg': '#161b22',
+            '--accent-muted': '#4A5C6A', '--text-gray': '#c9d1d9', '--text-white': '#f0f6fc',
+            '--neon-blue': '#58a6ff', '--accent-purple': '#B8A9FF',
+            '--glass': 'rgba(17, 33, 45, 0.75)', '--border': 'rgba(88, 166, 255, 0.18)',
+            '--shadow-color': 'rgba(0,0,0,0.45)'
+        },
+        balls: ['#1c2d3f', '#253745', '#0d1f2d']
+    },
+    {
+        name: 'Dracula',
+        vars: {
+            '--bg-dark': '#1e1f29', '--bg-panel': '#282a36', '--card-bg': '#282a36',
+            '--accent-muted': '#6272a4', '--text-gray': '#cdd6f4', '--text-white': '#f8f8f2',
+            '--neon-blue': '#bd93f9', '--accent-purple': '#ff79c6',
+            '--glass': 'rgba(30, 31, 41, 0.8)', '--border': 'rgba(189, 147, 249, 0.22)',
+            '--shadow-color': 'rgba(0,0,0,0.5)'
+        },
+        balls: ['#2d2f3e', '#363848', '#1a1b26']
+    },
+    {
+        name: 'Nord',
+        vars: {
+            '--bg-dark': '#242933', '--bg-panel': '#2e3440', '--card-bg': '#2e3440',
+            '--accent-muted': '#4c566a', '--text-gray': '#d8dee9', '--text-white': '#eceff4',
+            '--neon-blue': '#88c0d0', '--accent-purple': '#81a1c1',
+            '--glass': 'rgba(36, 41, 51, 0.8)', '--border': 'rgba(136, 192, 208, 0.2)',
+            '--shadow-color': 'rgba(0,0,0,0.4)'
+        },
+        balls: ['#3b4252', '#434c5e', '#2e3440']
+    },
+    {
+        name: 'Catppuccin',
+        vars: {
+            '--bg-dark': '#292c3c', '--bg-panel': '#303446', '--card-bg': '#303446',
+            '--accent-muted': '#626880', '--text-gray': '#c6d0f5', '--text-white': '#cdd6f4',
+            '--neon-blue': '#96CDFB', '--accent-purple': '#ca9ee6',
+            '--glass': 'rgba(41, 44, 60, 0.8)', '--border': 'rgba(150, 205, 251, 0.18)',
+            '--shadow-color': 'rgba(0,0,0,0.4)'
+        },
+        balls: ['#363a4f', '#414559', '#292c3c']
+    },
+    {
+        name: 'Tokyo Night',
+        vars: {
+            '--bg-dark': '#13141f', '--bg-panel': '#1a1b2e', '--card-bg': '#1f2035',
+            '--accent-muted': '#414868', '--text-gray': '#a9b1d6', '--text-white': '#c0caf5',
+            '--neon-blue': '#7aa2f7', '--accent-purple': '#bb9af7',
+            '--glass': 'rgba(19, 20, 31, 0.82)', '--border': 'rgba(122, 162, 247, 0.2)',
+            '--shadow-color': 'rgba(0,0,0,0.5)'
+        },
+        balls: ['#1a1b2e', '#24253d', '#16172a']
+    },
+    {
+        name: 'Solarized',
+        vars: {
+            '--bg-dark': '#001e26', '--bg-panel': '#002b36', '--card-bg': '#073642',
+            '--accent-muted': '#586e75', '--text-gray': '#93a1a1', '--text-white': '#fdf6e3',
+            '--neon-blue': '#268bd2', '--accent-purple': '#2aa198',
+            '--glass': 'rgba(0, 30, 38, 0.82)', '--border': 'rgba(38, 139, 210, 0.22)',
+            '--shadow-color': 'rgba(0,0,0,0.5)'
+        },
+        balls: ['#002b36', '#073642', '#00161c']
+    }
+];
 
-// --- CANVAS BALLPIT  ---
+let currentThemeIndex = 0;
+
+function applyTheme(index) {
+    const t = themes[index];
+    for (const [k, v] of Object.entries(t.vars)) root.style.setProperty(k, v);
+    document.body.setAttribute('data-theme', t.name.toLowerCase().replace(/\s/g, '-'));
+    balls.forEach(b => { b.color = t.balls[Math.floor(Math.random() * t.balls.length)]; });
+
+    // Update swatch active state
+    document.querySelectorAll('.swatch').forEach((s, i) => s.classList.toggle('active', i === index));
+
+    // Update trigger label
+    const label = document.getElementById('themeLabel');
+    if (label) label.textContent = t.name;
+
+    currentThemeIndex = index;
+}
+
+// Picker open/close
+const themeBtn     = document.getElementById('themeBtn');
+const themePanel   = document.getElementById('themePanel');
+const themePicker  = document.getElementById('themePicker');
+
+if (themeBtn) {
+    themeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        themePicker.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!themePicker.contains(e.target)) themePicker.classList.remove('open');
+    });
+
+    document.querySelectorAll('.swatch').forEach(swatch => {
+        swatch.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const idx = parseInt(swatch.getAttribute('data-theme-index'));
+            applyTheme(idx);
+            setTimeout(() => themePicker.classList.remove('open'), 180);
+        });
+    });
+}
+
+
+// ═══════════════════════════════════════════════════════
+// CANVAS BALLPIT
+// ═══════════════════════════════════════════════════════
 const canvas = document.getElementById('ballpit');
 const ctx = canvas.getContext('2d');
 let balls = [];
 let mouse = { x: undefined, y: undefined };
 
 function resize() {
-    canvas.width = window.innerWidth;
+    canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
     initBalls();
 }
-
 window.addEventListener('resize', resize);
-window.addEventListener('mousemove', (e) => {
-    mouse.x = e.x;
-    mouse.y = e.y;
-});
+window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
 
 class Ball {
     constructor(x, y, r, color) {
@@ -239,30 +396,21 @@ class Ball {
         ctx.fill();
     }
     update() {
-        // Interaction (Repulsion)
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
-        let distance = Math.sqrt(dx*dx + dy*dy);
+        let distance = Math.sqrt(dx * dx + dy * dy);
         let forceDirectionX = dx / distance;
         let forceDirectionY = dy / distance;
         let maxDistance = 150;
         let force = (maxDistance - distance) / maxDistance;
         let directionX = forceDirectionX * force * this.density;
         let directionY = forceDirectionY * force * this.density;
-
         if (distance < maxDistance) {
             this.x -= directionX;
             this.y -= directionY;
         } else {
-            // Return to base position
-            if (this.x !== this.baseX) {
-                let dx = this.x - this.baseX;
-                this.x -= dx/10;
-            }
-            if (this.y !== this.baseY) {
-                let dy = this.y - this.baseY;
-                this.y -= dy/10;
-            }
+            if (this.x !== this.baseX) this.x -= (this.x - this.baseX) / 10;
+            if (this.y !== this.baseY) this.y -= (this.y - this.baseY) / 10;
         }
         this.draw();
     }
@@ -271,12 +419,11 @@ class Ball {
 function initBalls() {
     balls = [];
     const colors = ['#253745', '#4A5C6A', '#11212D'];
-    // Reduce ball count on mobile for better performance
     const ballCount = isMobile ? 30 : 60;
     for (let i = 0; i < ballCount; i++) {
-        let r = Math.random() * 15 + 5;
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
+        let r     = Math.random() * 15 + 5;
+        let x     = Math.random() * canvas.width;
+        let y     = Math.random() * canvas.height;
         let color = colors[Math.floor(Math.random() * colors.length)];
         balls.push(new Ball(x, y, r, color));
     }
@@ -288,14 +435,76 @@ function animateBalls() {
     requestAnimationFrame(animateBalls);
 }
 
-// --- CONTACT CARD FLIP ---
-const card = document.getElementById("contactCard");
+// ═══════════════════════════════════════════════════════
+// MATRIX RAIN EASTER EGG
+// Type "matrix" anywhere on the page to trigger it
+// ═══════════════════════════════════════════════════════
+const matrixCanvas  = document.getElementById('matrix-canvas');
+const matrixCtx     = matrixCanvas.getContext('2d');
+let matrixActive    = false;
+let matrixAnimFrame = null;
+let matrixTimeout   = null;
+let typedBuffer     = '';
 
-card.addEventListener("click", () => {
-    card.classList.toggle("flipped");
+const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ01ﾊﾐﾋｲｳｦABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+let matrixColumns = [];
+
+function startMatrix() {
+    if (matrixActive) return;
+    matrixActive = true;
+    matrixCanvas.style.display = 'block';
+    matrixCanvas.width  = window.innerWidth;
+    matrixCanvas.height = window.innerHeight;
+
+    const fontSize = 14;
+    const cols = Math.floor(matrixCanvas.width / fontSize);
+    matrixColumns = Array(cols).fill(1);
+
+    function drawMatrix() {
+        matrixCtx.fillStyle = 'rgba(13, 17, 23, 0.05)';
+        matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+        matrixCtx.fillStyle = '#58a6ff';
+        matrixCtx.font = fontSize + 'px JetBrains Mono';
+        matrixColumns.forEach((y, x) => {
+            const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+            matrixCtx.fillText(char, x * fontSize, y * fontSize);
+            if (y * fontSize > matrixCanvas.height && Math.random() > 0.975) matrixColumns[x] = 0;
+            matrixColumns[x]++;
+        });
+        matrixAnimFrame = requestAnimationFrame(drawMatrix);
+    }
+    drawMatrix();
+
+    // Auto-stop after 4 seconds
+    matrixTimeout = setTimeout(stopMatrix, 4000);
+}
+
+function stopMatrix() {
+    matrixActive = false;
+    cancelAnimationFrame(matrixAnimFrame);
+    clearTimeout(matrixTimeout);
+    matrixCtx.clearRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+    matrixCanvas.style.display = 'none';
+}
+
+document.addEventListener('keydown', (e) => {
+    typedBuffer = (typedBuffer + e.key).slice(-6).toLowerCase();
+    if (typedBuffer === 'matrix') {
+        typedBuffer = '';
+        matrixActive ? stopMatrix() : startMatrix();
+    }
+    if (e.key === 'Escape' && matrixActive) stopMatrix();
 });
 
-// Initialization on load
+// ═══════════════════════════════════════════════════════
+// CONTACT CARD FLIP
+// ═══════════════════════════════════════════════════════
+const card = document.getElementById('contactCard');
+card.addEventListener('click', () => { card.classList.toggle('flipped'); });
+
+// ═══════════════════════════════════════════════════════
+// INIT ON LOAD
+// ═══════════════════════════════════════════════════════
 window.onload = () => {
     resize();
     animateBalls();
