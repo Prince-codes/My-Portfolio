@@ -31,56 +31,6 @@
         <div class="aurora-orb"></div>
     </div>
 
-    <!-- Theme Picker -->
-    <div class="theme-picker-wrapper" id="themePicker">
-        <button class="theme-trigger" id="themeBtn" title="Change Theme">
-            <i class="fas fa-palette"></i>
-            <span class="theme-trigger-label" id="themeLabel">GitHub Dark</span>
-            <i class="fas fa-chevron-down theme-chevron" id="themeChevron"></i>
-        </button>
-        <div class="theme-panel" id="themePanel">
-            <p class="theme-panel-title">Choose Theme</p>
-            <div class="theme-swatches">
-                <button class="swatch active" data-theme-index="0" title="GitHub Dark">
-                    <span class="swatch-dot" style="background:#58a6ff"></span>
-                    <span class="swatch-dot" style="background:#B8A9FF"></span>
-                    <span class="swatch-dot" style="background:#0d1117"></span>
-                    <span class="swatch-name">GitHub Dark</span>
-                </button>
-                <button class="swatch" data-theme-index="1" title="Dracula">
-                    <span class="swatch-dot" style="background:#bd93f9"></span>
-                    <span class="swatch-dot" style="background:#ff79c6"></span>
-                    <span class="swatch-dot" style="background:#282a36"></span>
-                    <span class="swatch-name">Dracula</span>
-                </button>
-                <button class="swatch" data-theme-index="2" title="Nord">
-                    <span class="swatch-dot" style="background:#88c0d0"></span>
-                    <span class="swatch-dot" style="background:#81a1c1"></span>
-                    <span class="swatch-dot" style="background:#2e3440"></span>
-                    <span class="swatch-name">Nord</span>
-                </button>
-                <button class="swatch" data-theme-index="3" title="Catppuccin">
-                    <span class="swatch-dot" style="background:#96CDFB"></span>
-                    <span class="swatch-dot" style="background:#F2CDCD"></span>
-                    <span class="swatch-dot" style="background:#303446"></span>
-                    <span class="swatch-name">Catppuccin</span>
-                </button>
-                <button class="swatch" data-theme-index="4" title="Tokyo Night">
-                    <span class="swatch-dot" style="background:#7aa2f7"></span>
-                    <span class="swatch-dot" style="background:#bb9af7"></span>
-                    <span class="swatch-dot" style="background:#1a1b2e"></span>
-                    <span class="swatch-name">Tokyo Night</span>
-                </button>
-                <button class="swatch" data-theme-index="5" title="Solarized">
-                    <span class="swatch-dot" style="background:#268bd2"></span>
-                    <span class="swatch-dot" style="background:#2aa198"></span>
-                    <span class="swatch-dot" style="background:#002b36"></span>
-                    <span class="swatch-name">Solarized</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
     <main class="container">
 
         <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
@@ -324,6 +274,52 @@
         <a href="#skills"     class="dock-item"          data-label="Skills"><i class="fas fa-layer-group"></i></a>
         <a href="#projects"   class="dock-item"          data-label="Projects"><i class="fas fa-code-branch"></i></a>
         <a href="#contact"    class="dock-item"          data-label="Contact"><i class="fas fa-envelope-open-text"></i></a>
+        <div class="dock-item theme-dock-item" id="themeDock" data-label="Theme">
+            <button class="theme-trigger" id="themeBtn" title="Change Theme">
+                <i class="fas fa-palette"></i>
+            </button>
+            <div class="theme-panel" id="themePanel">
+                <p class="theme-panel-title">Choose Theme</p>
+                <div class="theme-swatches">
+                    <button class="swatch active" data-theme-index="0" title="GitHub Dark">
+                        <span class="swatch-dot" style="background:#58a6ff"></span>
+                        <span class="swatch-dot" style="background:#B8A9FF"></span>
+                        <span class="swatch-dot" style="background:#0d1117"></span>
+                        <span class="swatch-name">GitHub Dark</span>
+                    </button>
+                    <button class="swatch" data-theme-index="1" title="Dracula">
+                        <span class="swatch-dot" style="background:#bd93f9"></span>
+                        <span class="swatch-dot" style="background:#ff79c6"></span>
+                        <span class="swatch-dot" style="background:#282a36"></span>
+                        <span class="swatch-name">Dracula</span>
+                    </button>
+                    <button class="swatch" data-theme-index="2" title="Nord">
+                        <span class="swatch-dot" style="background:#88c0d0"></span>
+                        <span class="swatch-dot" style="background:#81a1c1"></span>
+                        <span class="swatch-dot" style="background:#2e3440"></span>
+                        <span class="swatch-name">Nord</span>
+                    </button>
+                    <button class="swatch" data-theme-index="3" title="Catppuccin">
+                        <span class="swatch-dot" style="background:#96CDFB"></span>
+                        <span class="swatch-dot" style="background:#F2CDCD"></span>
+                        <span class="swatch-dot" style="background:#303446"></span>
+                        <span class="swatch-name">Catppuccin</span>
+                    </button>
+                    <button class="swatch" data-theme-index="4" title="Tokyo Night">
+                        <span class="swatch-dot" style="background:#7aa2f7"></span>
+                        <span class="swatch-dot" style="background:#bb9af7"></span>
+                        <span class="swatch-dot" style="background:#1a1b2e"></span>
+                        <span class="swatch-name">Tokyo Night</span>
+                    </button>
+                    <button class="swatch" data-theme-index="5" title="Solarized">
+                        <span class="swatch-dot" style="background:#268bd2"></span>
+                        <span class="swatch-dot" style="background:#2aa198"></span>
+                        <span class="swatch-dot" style="background:#002b36"></span>
+                        <span class="swatch-name">Solarized</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>

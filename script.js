@@ -372,16 +372,16 @@ function applyTheme(index) {
 // Picker open/close
 const themeBtn     = document.getElementById('themeBtn');
 const themePanel   = document.getElementById('themePanel');
-const themePicker  = document.getElementById('themePicker');
+const themeDock    = document.getElementById('themeDock');
 
 if (themeBtn) {
     themeBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        themePicker.classList.toggle('open');
+        themeDock.classList.toggle('open');
     });
 
     document.addEventListener('click', (e) => {
-        if (!themePicker.contains(e.target)) themePicker.classList.remove('open');
+        if (!themeDock.contains(e.target)) themeDock.classList.remove('open');
     });
 
     document.querySelectorAll('.swatch').forEach(swatch => {
@@ -389,7 +389,7 @@ if (themeBtn) {
             e.stopPropagation();
             const idx = parseInt(swatch.getAttribute('data-theme-index'));
             applyTheme(idx);
-            setTimeout(() => themePicker.classList.remove('open'), 180);
+            setTimeout(() => themeDock.classList.remove('open'), 180);
         });
     });
 }
