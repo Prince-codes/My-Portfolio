@@ -472,6 +472,7 @@ const matrixCtx     = matrixCanvas.getContext('2d');
 let matrixActive    = false;
 let matrixAnimFrame = null;
 let matrixTimeout   = null;
+let notificationTimeout = null;
 let typedBuffer     = '';
 
 const matrixChars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ01ﾊﾐﾋｲｳｦABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -520,6 +521,16 @@ document.addEventListener('keydown', (e) => {
     if (typedBuffer === 'matrix') {
         typedBuffer = '';
         matrixActive ? stopMatrix() : startMatrix();
+        // Hide the notification when matrix is triggered
+        const notif = document.getElementById('matrix-notification');
+        if (notif) {
+            if (notificationTimeout) {
+                clearTimeout(notificationTimeout);
+                notificationTimeout = null;
+            }
+            notif.classList.add('hide');
+            setTimeout(() => notif.style.display = 'none', 600);
+        }
     }
     if (e.key === 'Escape' && matrixActive) stopMatrix();
 });
@@ -537,4 +548,14 @@ window.onload = () => {
     resize();
     animateBalls();
     initAnime();
+    
+    // Auto-hide notification after 5 seconds
+    const notif = document.getElementById('matrix-notification');
+    if (notif) {
+        notificationTimeout = setTimeout(() => {
+            notif.classList.add('hide');
+            setTimeout(() => notif.style.display = 'none', 600);
+            notificationTimeout = null;
+        }, 5000);
+    }
 };
