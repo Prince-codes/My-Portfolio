@@ -52,8 +52,35 @@ if (!isMobile) {
 // ═══════════════════════════════════════════════════════
 const dock = document.getElementById('dock');
 const dockItems = document.querySelectorAll('.dock-item');
-const baseWidth = 50;
 const root = document.documentElement;
+
+// Dynamic base size calculation to ensure consistency
+function getBaseSizes() {
+    if (window.innerWidth <= 600) {
+        return { width: 40, height: 40, fontSize: 1 };
+    } else if (window.innerWidth <= 768) {
+        return { width: 45, height: 45, fontSize: 1.1 };
+    } else {
+        return { width: 50, height: 50, fontSize: 1.2 };
+    }
+}
+
+let baseSizes = getBaseSizes();
+
+// Update base sizes on window resize
+window.addEventListener('resize', () => {
+    baseSizes = getBaseSizes();
+    if (!isMobile) resetDockItems();
+});
+
+function resetDockItems() {
+    dockItems.forEach(item => {
+        item.style.width = `${baseSizes.width}px`;
+        item.style.height = `${baseSizes.height}px`;
+        item.style.fontSize = `${baseSizes.fontSize}rem`;
+        item.style.transform = 'scale(1) translateY(0)';
+    });
+}
 
 if (dock && !isMobile) {
     dock.addEventListener('mousemove', (e) => {
@@ -62,20 +89,21 @@ if (dock && !isMobile) {
             const rect = item.getBoundingClientRect();
             const itemCenterX = rect.left + rect.width / 2;
             const distance = Math.abs(mouseX - itemCenterX);
+            const maxDistance = 150;
+            
+            // Symmetric scaling with better curve
             let scale = 1;
-            if (distance < 150) scale = 1 + (1.6 - 1) * (1 - distance / 150);
-            item.style.width    = `${baseWidth * scale}px`;
-            item.style.height   = `${baseWidth * scale}px`;
-            item.style.fontSize = `${1.2 * scale}rem`;
+            if (distance < maxDistance) {
+                const influence = 1 - (distance / maxDistance);
+                scale = 1 + 0.6 * influence;
+            }
+            
+            // Use transform for smooth scaling - more efficient than separately setting dimensions
+            item.style.transform = `scale(${scale}) translateY(${-8 * (scale - 1)}px)`;
         });
     });
-    dock.addEventListener('mouseleave', () => {
-        dockItems.forEach(item => {
-            item.style.width    = `${baseWidth}px`;
-            item.style.height   = `${baseWidth}px`;
-            item.style.fontSize = `1.2rem`;
-        });
-    });
+    
+    dock.addEventListener('mouseleave', resetDockItems);
 }
 
 if (dock) {
